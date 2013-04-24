@@ -1,6 +1,6 @@
 # ureporter-simulator
 
-A Clojure library designed to ... well, that part is up to you.
+Simulates ureporters receiving and responding to SMS messages, as if it was Kannel
 
 ## Usage
 
