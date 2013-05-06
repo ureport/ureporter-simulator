@@ -1,5 +1,6 @@
 (ns ureporter-simulator.server
-  (:use compojure.core compojure.route ring.adapter.jetty ring.util.codec)
+  (:use compojure.core compojure.route ring.adapter.jetty ring.util.codec
+        clojure.tools.logging clj-logging-config.log4j)
   (:require
     [compojure.handler :as handler]
     [compojure.route :as route]
@@ -8,7 +9,7 @@
   (:gen-class))
 
 
-
+;; TODO : Use cheshire https://github.com/dakrone/cheshire/blob/master/project.clj
 (defn json-response [status data]
   {:status status
    :headers {"Content-Type" "application/json"}
@@ -20,16 +21,18 @@
 
 (defn default-handler [request]
   (let [uri  (request-uri request)]
-    (println uri)    
-    (json-response 200 {:is ["generic-response"] 
+    (info uri)    
+    (json-response 200 {:is ["echo"] 
                         :request uri                        
                         :message "Thanks for pinging me!" })))
 
 (defroutes app
   (GET "/*" [:as request] (default-handler request)))
 
+(set-logger! :pattern "%d [%-15t] %-6p %-40c{1} - %m%n" :level :info)
 (defn -main [& m]
   (let [mode (keyword (or (first m) :dev ))
-        port (Integer. (get (System/getenv) "PORT" "8084"))]    
-    (println (format "Starting ureporter-simulator on port [%s]" port))    
+        port (Integer. (get (System/getenv) "PORT" "8084"))]            
+
+    (info (format "Starting ureporter-simulator on port [%s]" port))    
     (run-jetty (handler/site app) {:port port})))

@@ -8,6 +8,9 @@
                  [ring/ring-jetty-adapter "1.1.7"]
                  [compojure "1.1.5"]
                  [org.clojure/data.json "0.2.2"]
+                 [org.clojure/tools.logging "0.2.6"]
+                 [clj-logging-config "1.9.10"]
+                 [log4j "1.2.16"]
                  ]
   :main ureporter-simulator.server
 )
